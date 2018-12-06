@@ -19,33 +19,33 @@ The supported json format is:
 }
 ```
 
-## Run in docker (recommend)
+## Run by docker
 
 1) Print usage
 
 ```
-docker run dakalab/translate -h
+docker run --rm dakalab/translate -h
 ```
 
 2) Get available languages:
 
 ```
-docker run -e GCLOUD_API_KEY=your-key dakalab/translate -l
+docker run --rm -e GCLOUD_API_KEY=your-key dakalab/translate -l
 ```
 
 3) Translate
 
 ```
-docker run -e GCLOUD_API_KEY=your-key dakalab/translate -i "input-json-file" -o "output-json-file" -s source-language -t target-language
+docker run --rm -e GCLOUD_API_KEY=your-key dakalab/translate -i "input-json-file" -o "output-json-file" -s source-language -t target-language
 ```
 
 Below is a simple example which will translate the demo.json into Chinese and output to stdout:
 
 ```
-docker run -e GCLOUD_API_KEY=your-key -v $PWD/demo.json:/demo.json dakalab/translate -i "/demo.json" -t zh
+docker run --rm -e GCLOUD_API_KEY=your-key -v $PWD/demo.json:/demo.json dakalab/translate -i "/demo.json" -s en -t zh
 ```
 
-## Run with local golang
+## Run by local golang
 
 ### Install
 
@@ -78,3 +78,9 @@ Below is a simple example which will translate the demo.json into Chinese and ou
 ```
 GCLOUD_API_KEY=your-key translate -i "./demo.json" -t zh
 ```
+
+### Tips
+
+If you do not want to specify google cloud api key everytime, you can export it to your ENV variable.
+
+For Mac / Linux users, you can simply run `export GCLOUD_API_KEY=your-key`.
