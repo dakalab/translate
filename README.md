@@ -5,6 +5,7 @@
 [![](https://goreportcard.com/badge/github.com/dakalab/translate)](https://goreportcard.com/report/github.com/dakalab/translate)
 [![codecov](https://codecov.io/gh/dakalab/translate/branch/master/graph/badge.svg)](https://codecov.io/gh/dakalab/translate)
 [![Docker Pulls](https://img.shields.io/docker/pulls/dakalab/translate.svg)](https://hub.docker.com/r/dakalab/translate)
+[![Release](https://img.shields.io/github/release/dakalab/translate.svg)](https://github.com/dakalab/translate/releases)
 
 
 This is a translation tool for translating from json-format input file into target language by using google cloud translate.
