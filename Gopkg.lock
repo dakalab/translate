@@ -9,8 +9,8 @@
     "translate",
     "translate/internal/translate/v2"
   ]
-  revision = "74b12019e2aa53ec27882158f59192d7cd6d1998"
-  version = "v0.33.1"
+  revision = "28a4bc8c44b3acbcc482cff0cdf7de29a4688b61"
+  version = "v0.35.1"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -39,8 +39,8 @@
 [[projects]]
   name = "github.com/stretchr/testify"
   packages = ["assert"]
-  revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
-  version = "v1.2.2"
+  revision = "ffdc059bfe9ce6a4e144ba849dbedead332c6053"
+  version = "v1.3.0"
 
 [[projects]]
   name = "go.opencensus.io"
@@ -60,8 +60,8 @@
     "trace/propagation",
     "trace/tracestate"
   ]
-  revision = "b7bf3cdb64150a8c8c53b769fdeb2ba581bd4d4b"
-  version = "v0.18.0"
+  revision = "2b5032d79456124f42db6b7eb19ac6c155449dc2"
+  version = "v0.19.0"
 
 [[projects]]
   branch = "master"
@@ -76,7 +76,7 @@
     "internal/timeseries",
     "trace"
   ]
-  revision = "351d144fa1fc0bd934e2408202be0c29f25e35a0"
+  revision = "d26f9f9a57f3fab6a695bec0d84433c2c50f8bbf"
 
 [[projects]]
   branch = "master"
@@ -88,13 +88,13 @@
     "jws",
     "jwt"
   ]
-  revision = "28207608b83849a028d4f12e46533a6b6894ecaf"
+  revision = "5dab4167f31cbd76b407f1486c86b40748bc5073"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "4ed8d59d0b35e1e29334a206d1b3f38b1e5dfb31"
+  revision = "b90733256f2e882e81d52f9126de08df5615afd9"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -118,7 +118,6 @@
   version = "v0.3.0"
 
 [[projects]]
-  branch = "master"
   name = "google.golang.org/api"
   packages = [
     "gensupport",
@@ -130,7 +129,8 @@
     "transport/http",
     "transport/http/internal/propagation"
   ]
-  revision = "af4fc4062c262223ddc2d92f5f35a93690db383a"
+  revision = "19e022d8cf43ce81f046bae8cc18c5397cc7732f"
+  version = "v0.1.0"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -146,14 +146,14 @@
     "internal/urlfetch",
     "urlfetch"
   ]
-  revision = "4a4468ece617fc8205e99368fa2200e9d1fad421"
-  version = "v1.3.0"
+  revision = "e9657d882bb81064595ca3b56cbe2546bbabf7b1"
+  version = "v1.4.0"
 
 [[projects]]
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
-  revision = "31ac5d88444a9e7ad18077db9a165d793ad06a2e"
+  revision = "8819c946db4494a2259bf100a377f51aa585d893"
 
 [[projects]]
   name = "google.golang.org/grpc"
@@ -162,17 +162,22 @@
     "balancer",
     "balancer/base",
     "balancer/roundrobin",
+    "binarylog/grpc_binarylog_v1",
     "codes",
     "connectivity",
     "credentials",
+    "credentials/internal",
     "encoding",
     "encoding/proto",
     "grpclog",
     "internal",
     "internal/backoff",
+    "internal/binarylog",
     "internal/channelz",
     "internal/envconfig",
     "internal/grpcrand",
+    "internal/grpcsync",
+    "internal/syscall",
     "internal/transport",
     "keepalive",
     "metadata",
@@ -185,12 +190,12 @@
     "status",
     "tap"
   ]
-  revision = "2e463a05d100327ca47ac218281906921038fd95"
-  version = "v1.16.0"
+  revision = "a02b0774206b209466313a0b525d2c738fe407eb"
+  version = "v1.18.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cbc91af65809d8a8a2e14bcc82d2b3f02fff87f7bf48e653b4b1062a79f6a099"
+  inputs-digest = "28e0016715269c647c1e61684adfa4bee779c7d359c9e2553aff15494da516ea"
   solver-name = "gps-cdcl"
   solver-version = 1

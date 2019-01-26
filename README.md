@@ -8,7 +8,9 @@
 [![Release](https://img.shields.io/github/release/dakalab/translate.svg)](https://github.com/dakalab/translate/releases)
 
 
-This is a translation tool for translating from json-format input file into target language by using google cloud translate.
+This is a translation tool for translating content from input file into target language by using google cloud translate.
+
+Currently support json, yaml, html and plain text formats.
 
 The supported json format is:
 
@@ -18,6 +20,17 @@ The supported json format is:
     "key2": "value2",
     ...
 }
+```
+
+The supported yaml format is:
+
+```
+key1: value1
+key2: value2
+key3:
+    subkey1: value3
+    subkey2: value4
+...
 ```
 
 ## Run by docker
@@ -37,13 +50,25 @@ docker run --rm -e GCLOUD_API_KEY=your-key dakalab/translate -l
 3) Translate
 
 ```
-docker run --rm -e GCLOUD_API_KEY=your-key dakalab/translate -i "input-json-file" -o "output-json-file" -s source-language -t target-language
+docker run --rm -e GCLOUD_API_KEY=your-key dakalab/translate -i "input-file" -o "output-file" -s source-language -t target-language
 ```
 
 Below is a simple example which will translate the demo.json into Chinese and output to stdout:
 
 ```
-docker run --rm -e GCLOUD_API_KEY=your-key -v $PWD/demo.json:/demo.json dakalab/translate -i "/demo.json" -s en -t zh
+docker run --rm -e GCLOUD_API_KEY=your-key -v $PWD/testfiles/demo.json:/demo.json dakalab/translate -i "/demo.json" -s en -t zh
+```
+
+Example of translating yaml file:
+
+```
+docker run --rm -e GCLOUD_API_KEY=your-key -v $PWD/testfiles/demo.yml:/demo.yml dakalab/translate -i "/demo.yml" -s en -t zh
+```
+
+Example of translating html file:
+
+```
+docker run --rm -e GCLOUD_API_KEY=your-key -v $PWD/testfiles/demo.txt:/demo.html dakalab/translate -i "/demo.html" -s en -t zh
 ```
 
 ## Run by local golang
@@ -77,8 +102,21 @@ GCLOUD_API_KEY=your-key translate -i "input-json-file" -o "output-json-file" -s 
 Below is a simple example which will translate the demo.json into Chinese and output to stdout:
 
 ```
-GCLOUD_API_KEY=your-key translate -i "./demo.json" -t zh
+GCLOUD_API_KEY=your-key translate -i "./testfiles/demo.json" -t zh
 ```
+
+Example of translating yaml file:
+
+```
+GCLOUD_API_KEY=your-key translate -i "./testfiles/demo.yml" -t zh
+```
+
+Example of translating html file:
+
+```
+GCLOUD_API_KEY=your-key translate -i "./testfiles/demo.html" -t zh
+```
+
 
 ### Tips
 
