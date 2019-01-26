@@ -27,6 +27,25 @@ func TestProcess(t *testing.T) {
 	os.Remove(tmpOutput)
 }
 
+func TestYAML(t *testing.T) {
+	tmpOutput := "/tmp/translate-result.yml"
+	var args = arguments{
+		inputFile:  "./testfiles/demo.yml",
+		outputFile: tmpOutput,
+		sourceLang: "en",
+		targetLang: "fr",
+	}
+
+	doTranslate(client(context.Background()), args)
+
+	assert.Equal(t, "./testfiles/demo.yml", args.inputFile)
+	assert.Equal(t, "fr", args.targetLang)
+
+	_, err := os.Stat(tmpOutput)
+	assert.NoError(t, err)
+	os.Remove(tmpOutput)
+}
+
 func TestClient(t *testing.T) {
 	key := os.Getenv("GCLOUD_API_KEY")
 	ctx := context.Background()

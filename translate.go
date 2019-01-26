@@ -45,17 +45,36 @@ func process() {
 		return
 	}
 
-	sl := language.MustParse(args.sourceLang)
-	tl := language.MustParse(args.targetLang)
-
-	var jsonTranslater = translater.NewJSONTranslater(client)
-	jsonTranslater.ParseFile(args.inputFile)
-	jsonTranslater.Translate(sl, tl)
-	jsonTranslater.SaveResult(args.outputFile)
+	if err := doTranslate(client, args); err != nil {
+		exit(err)
+	}
 
 	if args.outputFile != "/dev/stdout" {
 		log.Println("Translate successfully and save into " + args.outputFile)
 	}
+}
+
+func doTranslate(client *translate.Client, args arguments) error {
+	sl := language.MustParse(args.sourceLang)
+	tl := language.MustParse(args.targetLang)
+
+	var jsonTranslater = translater.NewJSONTranslater(client)
+	err := jsonTranslater.ParseFile(args.inputFile)
+	if err == nil {
+		jsonTranslater.Translate(sl, tl)
+		jsonTranslater.SaveResult(args.outputFile)
+		return nil
+	}
+
+	var yamlTranslater = translater.NewYAMLTranslater(client)
+	err = yamlTranslater.ParseFile(args.inputFile)
+	if err == nil {
+		yamlTranslater.Translate(sl, tl)
+		yamlTranslater.SaveResult(args.outputFile)
+		return nil
+	}
+
+	return errors.New("Invalid arguments or file formats")
 }
 
 func parse() {

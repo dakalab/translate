@@ -27,9 +27,6 @@ The supported yaml format is:
 ```
 key1: value1
 key2: value2
-key3:
-    subkey1: value3
-    subkey2: value4
 ...
 ```
 

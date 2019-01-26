@@ -2,39 +2,38 @@ package translater
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"io/ioutil"
 
 	"cloud.google.com/go/translate"
 	"golang.org/x/text/language"
+	"gopkg.in/yaml.v2"
 )
 
-// JSONTranslater - json translater
-type JSONTranslater struct {
+// YAMLTranslater - yaml translater
+type YAMLTranslater struct {
 	Client      *translate.Client
 	Original    map[string]string
 	Translation map[string]string
 }
 
-// NewJSONTranslater - return a new JSONTranslater
-func NewJSONTranslater(client *translate.Client) *JSONTranslater {
-	return &JSONTranslater{Client: client}
+// NewYAMLTranslater - return a new YAMLTranslater
+func NewYAMLTranslater(client *translate.Client) *YAMLTranslater {
+	return &YAMLTranslater{Client: client}
 }
 
-// ParseFile - parse json file
-func (trans *JSONTranslater) ParseFile(file string) error {
+// ParseFile - parse yaml file
+func (trans *YAMLTranslater) ParseFile(file string) error {
 	content, err := ioutil.ReadFile(file)
 	if err != nil {
 		return err
 	}
 
-	trans.Original = make(map[string]string)
-	return json.Unmarshal(content, &trans.Original)
+	return yaml.Unmarshal(content, &trans.Original)
 }
 
 // Translate - translate the original into translation
-func (trans *JSONTranslater) Translate(sl, tl language.Tag) error {
+func (trans *YAMLTranslater) Translate(sl, tl language.Tag) error {
 	if trans.Client == nil {
 		return errors.New("translate client is nil")
 	}
@@ -61,11 +60,12 @@ func (trans *JSONTranslater) Translate(sl, tl language.Tag) error {
 }
 
 // SaveResult - save translation to output file
-func (trans *JSONTranslater) SaveResult(file string) error {
-	result, err := json.MarshalIndent(trans.Translation, "", "    ")
+func (trans *YAMLTranslater) SaveResult(file string) error {
+	result, err := yaml.Marshal(trans.Translation)
 	if err != nil {
 		return err
 	}
 
-	return ioutil.WriteFile(file, result, 0644)
+	err = ioutil.WriteFile(file, result, 0644)
+	return err
 }

@@ -1,5 +1,2 @@
-greeting: "Hello world!",
+greeting: "Hello world!"
 excellent: "This translation tool is excellent!"
-parent:
-  child1: "I'm child 1"
-  child2: "I'm child 2"
