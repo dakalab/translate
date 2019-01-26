@@ -68,7 +68,7 @@ func (suite *YAMLTestSuite) TestParseFile() {
 }
 
 func (suite *YAMLTestSuite) TestSaveResult() {
-	suite.translater.Original = map[string]string{
+	suite.translater.Translation = map[string]string{
 		"a": "a",
 	}
 

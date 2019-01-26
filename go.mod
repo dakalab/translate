@@ -15,4 +15,5 @@ require (
 	google.golang.org/appengine v1.4.0
 	google.golang.org/genproto v0.0.0-20190123001331-8819c946db44
 	google.golang.org/grpc v1.18.0
+	gopkg.in/yaml.v2 v2.2.2
 )

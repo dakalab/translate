@@ -36,14 +36,34 @@ func TestYAML(t *testing.T) {
 		targetLang: "fr",
 	}
 
-	doTranslate(client(context.Background()), args)
+	err := doTranslate(client(context.Background()), args)
+	assert.NoError(t, err)
 
-	assert.Equal(t, "./testfiles/demo.yml", args.inputFile)
-	assert.Equal(t, "fr", args.targetLang)
-
-	_, err := os.Stat(tmpOutput)
+	_, err = os.Stat(tmpOutput)
 	assert.NoError(t, err)
 	os.Remove(tmpOutput)
+}
+
+func TestHTML(t *testing.T) {
+	tmpOutput := "/tmp/translate-result.html"
+	var args = arguments{
+		inputFile:  "./testfiles/demo.html",
+		outputFile: tmpOutput,
+		sourceLang: "en",
+		targetLang: "fr",
+	}
+
+	err := doTranslate(client(context.Background()), args)
+	assert.NoError(t, err)
+
+	_, err = os.Stat(tmpOutput)
+	assert.NoError(t, err)
+	os.Remove(tmpOutput)
+
+	// should fail with non-existent file
+	args.inputFile = "./not-exists.html"
+	err = doTranslate(client(context.Background()), args)
+	assert.Error(t, err)
 }
 
 func TestClient(t *testing.T) {

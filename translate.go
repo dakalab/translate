@@ -74,7 +74,15 @@ func doTranslate(client *translate.Client, args arguments) error {
 		return nil
 	}
 
-	return errors.New("Invalid arguments or file formats")
+	var htmlTranslater = translater.NewHTMLTranslater(client)
+	err = htmlTranslater.ParseFile(args.inputFile)
+	if err != nil {
+		return err
+	}
+	htmlTranslater.Translate(sl, tl)
+	htmlTranslater.SaveResult(args.outputFile)
+
+	return nil
 }
 
 func parse() {

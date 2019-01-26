@@ -12,74 +12,67 @@ import (
 	"google.golang.org/api/option"
 )
 
-type JSONTestSuite struct {
+type HTMLTestSuite struct {
 	suite.Suite
-	translater *JSONTranslater
+	translater *HTMLTranslater
 }
 
-func TestJSONTestSuite(t *testing.T) {
-	suite.Run(t, new(JSONTestSuite))
+func TestHTMLTestSuite(t *testing.T) {
+	suite.Run(t, new(HTMLTestSuite))
 }
 
 // SetupSuite - run by testify once at the very start of the testing suite, before any tests are run.
-func (suite *JSONTestSuite) SetupSuite() {
+func (suite *HTMLTestSuite) SetupSuite() {
 	client, err := translate.NewClient(
 		context.TODO(),
 		option.WithAPIKey(os.Getenv("GCLOUD_API_KEY")),
 	)
 	suite.NoError(err)
-	suite.translater = NewJSONTranslater(client)
+	suite.translater = NewHTMLTranslater(client)
 }
 
 // TearDownSuite - run by testify once, at the very end of the testing suite, after all tests have been run.
-func (suite *JSONTestSuite) TearDownSuite() {
+func (suite *HTMLTestSuite) TearDownSuite() {
 	suite.translater.Client.Close()
 }
 
 // SetupTest - run before every test in the suite.
-func (suite *JSONTestSuite) SetupTest() {
-	suite.translater.Original = make(map[string]string)
-	suite.translater.Translation = make(map[string]string)
+func (suite *HTMLTestSuite) SetupTest() {
+	suite.translater.Original = ""
+	suite.translater.Translation = ""
 }
 
-func (suite *JSONTestSuite) TestTranslate() {
-	suite.translater.Original = map[string]string{
-		"greeting": "Hello world!",
-	}
+func (suite *HTMLTestSuite) TestTranslate() {
+	suite.translater.Original = "<h1>Hello world!</h1>"
 	err := suite.translater.Translate(language.English, language.French)
 	suite.NoError(err)
-	suite.Equal("Bonjour le monde!", suite.translater.Translation["greeting"])
+	suite.Equal("<h1> Bonjour le monde! </h1>", suite.translater.Translation)
 
 	suite.translater.Client = nil
 	err = suite.translater.Translate(language.English, language.French)
 	suite.Error(err)
 }
 
-func (suite *JSONTestSuite) TestParseFile() {
-	err := suite.translater.ParseFile("../testfiles/demo.json")
+func (suite *HTMLTestSuite) TestParseFile() {
+	err := suite.translater.ParseFile("../testfiles/demo.html")
 	suite.NoError(err)
-	suite.Equal("Hello world!", suite.translater.Original["greeting"])
+	suite.True(len(suite.translater.Original) > 0)
 
-	err = suite.translater.ParseFile("./not-exists.json")
-	suite.Error(err)
-
-	err = suite.translater.ParseFile("../testfiles/invalid.json")
+	err = suite.translater.ParseFile("./not-exists.html")
 	suite.Error(err)
 }
 
-func (suite *JSONTestSuite) TestSaveResult() {
-	suite.translater.Translation = map[string]string{
-		"a": "a",
-	}
+func (suite *HTMLTestSuite) TestSaveResult() {
+	suite.translater.Translation = "<h1>Hello world!</h1>"
 
-	file := "/tmp/translate-result.json"
+	file := "/tmp/translate-result.html"
 	err := suite.translater.SaveResult(file)
 	suite.NoError(err)
 	_, err = os.Stat(file)
 	suite.NoError(err)
 	os.Remove(file)
 
-	file = "/tmp/readonly.json"
+	file = "/tmp/readonly.html"
 	ioutil.WriteFile(file, nil, 0444)
 	err = suite.translater.SaveResult(file)
 	suite.Error(err)
