@@ -1,16 +1,14 @@
 language: go
 go:
-  - 1.10.x
   - 1.11.x
+  - 1.12.x
 
 notifications:
   email: false
 
-before_install:
-  - go get -u github.com/golang/dep/cmd/dep
-
 install:
-  - dep ensure
+  - export GO111MODULE=on
+  - go mod download
 
 script:
   - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
