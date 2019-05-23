@@ -72,28 +72,40 @@ func doTranslate(client *translate.Client, args arguments) error {
 	tl := language.MustParse(args.targetLang)
 
 	var jsonTranslater = translater.NewJSONTranslater(client)
-	err := jsonTranslater.ParseFile(args.inputFile)
-	if err == nil {
-		jsonTranslater.Translate(sl, tl)
-		jsonTranslater.SaveResult(args.outputFile)
+	err1 := jsonTranslater.ParseFile(args.inputFile)
+	if err1 == nil {
+		if err := jsonTranslater.Translate(sl, tl); err != nil {
+			return err
+		}
+		if err := jsonTranslater.SaveResult(args.outputFile); err != nil {
+			return err
+		}
 		return nil
 	}
 
 	var yamlTranslater = translater.NewYAMLTranslater(client)
-	err = yamlTranslater.ParseFile(args.inputFile)
-	if err == nil {
-		yamlTranslater.Translate(sl, tl)
-		yamlTranslater.SaveResult(args.outputFile)
+	err2 := yamlTranslater.ParseFile(args.inputFile)
+	if err2 == nil {
+		if err := yamlTranslater.Translate(sl, tl); err != nil {
+			return err
+		}
+		if err := yamlTranslater.SaveResult(args.outputFile); err != nil {
+			return err
+		}
 		return nil
 	}
 
 	var htmlTranslater = translater.NewHTMLTranslater(client)
-	err = htmlTranslater.ParseFile(args.inputFile)
-	if err != nil {
+	err3 := htmlTranslater.ParseFile(args.inputFile)
+	if err3 != nil {
+		return err3
+	}
+	if err := htmlTranslater.Translate(sl, tl); err != nil {
 		return err
 	}
-	htmlTranslater.Translate(sl, tl)
-	htmlTranslater.SaveResult(args.outputFile)
+	if err := htmlTranslater.SaveResult(args.outputFile); err != nil {
+		return err
+	}
 
 	return nil
 }
