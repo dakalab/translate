@@ -1,8 +1,6 @@
 package translater
 
 import (
-	"context"
-	"errors"
 	"io/ioutil"
 
 	"cloud.google.com/go/translate"
@@ -34,29 +32,9 @@ func (trans *YAMLTranslater) ParseFile(file string) error {
 
 // Translate - translate the original into translation
 func (trans *YAMLTranslater) Translate(sl, tl language.Tag) error {
-	if trans.Client == nil {
-		return errors.New("translate client is nil")
-	}
-
-	var keys []string
-	var values []string
-	for k, v := range trans.Original {
-		keys = append(keys, k)
-		values = append(values, v)
-	}
-	translations, err := trans.Client.Translate(context.Background(), values, tl, &translate.Options{
-		Source: sl,
-	})
-	if err != nil {
-		return err
-	}
-
-	trans.Translation = make(map[string]string, len(translations))
-	for i := 0; i < len(translations); i++ {
-		trans.Translation[keys[i]] = translations[i].Text
-	}
-
-	return nil
+	var err error
+	trans.Translation, err = convert(trans.Client, trans.Original, sl, tl)
+	return err
 }
 
 // SaveResult - save translation to output file
