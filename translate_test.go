@@ -101,3 +101,35 @@ func TestPrintSupportedLang(t *testing.T) {
 	os.Setenv("GCLOUD_API_KEY", key)
 	c.Close()
 }
+
+func TestTranslateFail(t *testing.T) {
+	var args = arguments{
+		inputFile:  "./testfiles/demo.json",
+		outputFile: "/tmp/not-exist-forder/target-file",
+		sourceLang: "en",
+		targetLang: "fr",
+	}
+
+	// fail to translate json
+	err := doTranslate(nil, args)
+	assert.Error(t, err)
+
+	err = doTranslate(client(context.Background()), args)
+	assert.Error(t, err)
+
+	// fail to translate yaml
+	args.inputFile = "./testfiles/demo.yml"
+	err = doTranslate(nil, args)
+	assert.Error(t, err)
+
+	err = doTranslate(client(context.Background()), args)
+	assert.Error(t, err)
+
+	// fail to translate html
+	args.inputFile = "./testfiles/demo.html"
+	err = doTranslate(nil, args)
+	assert.Error(t, err)
+
+	err = doTranslate(client(context.Background()), args)
+	assert.Error(t, err)
+}
